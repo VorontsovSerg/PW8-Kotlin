@@ -37,26 +37,37 @@ android {
 }
 
 dependencies {
-    testImplementation("junit:junit:4.13.2")
-    implementation(libs.androidx.junit.ktx)
-    testImplementation(libs.junit)
+    // Модульные тесты с использованием JUnit
+    testImplementation (libs.junit)
 
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
-    androidTestImplementation("androidx.test.espresso:espresso-accessibility:3.5.1")
-    androidTestImplementation("androidx.test.espresso:espresso-web:3.5.1")
-    androidTestImplementation("androidx.test.espresso.idling:idling-concurrent:3.5.1")
+    // Тестирование пользовательского интерфейса с использованием Espresso
+    androidTestImplementation (libs.androidx.espresso.core.v350)
+    androidTestImplementation (libs.androidx.espresso.contrib)
+    androidTestImplementation (libs.androidx.espresso.intents)
+    androidTestImplementation (libs.androidx.espresso.accessibility)
+    androidTestImplementation (libs.androidx.espresso.web)
+    androidTestImplementation (libs.androidx.idling.concurrent)
 
-    kapt(libs.compiler)
-    kapt("com.github.bumptech.glide:compiler:4.15.1")
+    // JUnit extensions для Android
+    androidTestImplementation (libs.androidx.junit.v115)
+    androidTestImplementation (libs.androidx.junit.ktx)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.activity)
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.24")
 
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    kapt ("com.github.bumptech.glide:compiler:4.16.0")
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+
+    implementation ("androidx.core:core-ktx:1.10.1")
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+}
+kapt {
+    correctErrorTypes = true
 }

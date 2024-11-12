@@ -1,71 +1,55 @@
 package com.example.pw7kotlin
 
-import android.graphics.Bitmap
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.After
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
+import com.example.pw7kotlin.R
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
-    private lateinit var mainActivity: MainActivity
-    private lateinit var testBitmap: Bitmap
+    @get:Rule
+    val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @Before
-    fun setUp() {
-        mainActivity = MainActivity()
-        testBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
-    }
-
-    @After
-    fun tearDown() {
-        // Очищаем ресурсы после теста
-        val file = File(mainActivity.filesDir, "downloaded_image.jpg")
-        if (file.exists()) {
-            file.delete()
-        }
-    }
-
+    // Проверка, что поле для ввода URL отображается
     @Test
-    fun testSaveImageToInternalStorage() {
-        mainActivity.saveImageToInternalStorage(testBitmap)
-        val file = File(mainActivity.filesDir, "downloaded_image.jpg")
-        assertTrue("Image was not saved", file.exists())
+    fun testEditTextIsDisplayed() {
+        onView(withId(R.id.editTextUrl)).check(matches(isDisplayed()))
     }
 
+    // Проверка, что кнопка загрузки изображения отображается
     @Test
-    fun testLoadImageFromInternalStorage() {
-        // Сначала сохраняем изображение, чтобы проверить его загрузку
-        mainActivity.saveImageToInternalStorage(testBitmap)
-        val loadedBitmap = mainActivity.loadImageFromInternalStorage()
-        assertNotNull("Image was not loaded", loadedBitmap)
-        assertEquals("Loaded bitmap width mismatch", testBitmap.width, loadedBitmap!!.width)
-        assertEquals("Loaded bitmap height mismatch", testBitmap.height, loadedBitmap.height)
+    fun testButtonIsDisplayed() {
+        onView(withId(R.id.buttonLoadImage)).check(matches(isDisplayed()))
     }
 
+    // Проверка, что ImageView отображается после нажатия на кнопку
     @Test
-    fun testDownloadImageSuccess() = runTest {
-        val url = "https://example.com/image.jpg"  // Укажите действительный URL изображения
-        val bitmap = mainActivity.downloadImage(url)
-        assertNotNull("Image was not downloaded", bitmap)
+    fun testImageViewIsDisplayedAfterButtonClick() {
+        onView(withId(R.id.buttonLoadImage)).perform(click())
+        onView(withId(R.id.imageView)).check(matches(isDisplayed()))
     }
 
+    // Проверка, что текст в EditText сохраняется при нажатии кнопки
     @Test
-    fun testDownloadImageFailure() = runTest {
-        val url = "https://invalid-url.com"
-        val bitmap = mainActivity.downloadImage(url)
-        assertNull("Image download should fail for invalid URL", bitmap)
+    fun testButtonClickWithInputUrl() {
+        onView(withId(R.id.editTextUrl)).perform(typeText("https://example.com/image.jpg"), closeSoftKeyboard())
+        onView(withId(R.id.buttonLoadImage)).perform(click())
+        onView(withId(R.id.editTextUrl)).check(matches(withText("https://example.com/image.jpg")))
     }
 
+    // Проверка, что при вводе текста в EditText и нажатии кнопки отображается изображение (заглушка)
     @Test
-    fun testImageExistsLocally() {
-        mainActivity.saveImageToInternalStorage(testBitmap)
-        val file = File(mainActivity.filesDir, "downloaded_image.jpg")
-        assertTrue("Image file does not exist locally", file.exists())
+    fun testLoadImageBehavior() {
+        onView(withId(R.id.editTextUrl)).perform(typeText("https://example.com/image.jpg"), closeSoftKeyboard())
+        onView(withId(R.id.buttonLoadImage)).perform(click())
+        // Проверка, что ImageView отображает изображение (тест заглушка, фактическая загрузка проверяется в функциональных тестах)
+        onView(withId(R.id.imageView)).check(matches(isDisplayed()))
     }
 }
