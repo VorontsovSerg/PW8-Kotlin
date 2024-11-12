@@ -37,10 +37,10 @@ android {
 }
 
 dependencies {
-    // Модульные тесты
+    testImplementation("junit:junit:4.13.2")
+    implementation(libs.androidx.junit.ktx)
     testImplementation(libs.junit)
 
-    // UI тесты с использованием Espresso
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
@@ -48,18 +48,15 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-web:3.5.1")
     androidTestImplementation("androidx.test.espresso.idling:idling-concurrent:3.5.1")
 
-    // Kapt для аннотаций
     kapt(libs.compiler)
     kapt("com.github.bumptech.glide:compiler:4.15.1")
 
-    // Основные зависимости Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.activity)
 
-    // Тесты для Android
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
