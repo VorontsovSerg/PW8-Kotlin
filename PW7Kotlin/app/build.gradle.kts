@@ -37,20 +37,10 @@ android {
 }
 
 dependencies {
-    // Модульные тесты с использованием JUnit
-    testImplementation (libs.junit)
-
-    // Тестирование пользовательского интерфейса с использованием Espresso
-    androidTestImplementation (libs.androidx.espresso.core.v350)
-    androidTestImplementation (libs.androidx.espresso.contrib)
-    androidTestImplementation (libs.androidx.espresso.intents)
-    androidTestImplementation (libs.androidx.espresso.accessibility)
-    androidTestImplementation (libs.androidx.espresso.web)
-    androidTestImplementation (libs.androidx.idling.concurrent)
-
-    // JUnit extensions для Android
-    androidTestImplementation (libs.androidx.junit.v115)
-    androidTestImplementation (libs.androidx.junit.ktx)
+    testImplementation ("org.jetbrains.kotlin:kotlin-test:1.7.10")
+    testImplementation ("io.mockk:mockk:1.12.0")
+    testImplementation ("org.robolectric:robolectric:4.9")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
 
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.24")
 
