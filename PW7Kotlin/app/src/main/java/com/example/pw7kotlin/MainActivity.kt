@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -18,12 +19,15 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal lateinit var editTextUrl: EditText
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal lateinit var buttonLoadImage: Button
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal lateinit var imageView: ImageView
 
-    private lateinit var editTextUrl: EditText
-    private lateinit var buttonLoadImage: Button
-    private lateinit var imageView: ImageView
-
-    private val imageFileName = "downloaded_image.jpg"
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal val imageFileName = "downloaded_image.jpg"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Проверка, есть ли сохраненное изображение
     private fun checkIfImageExistsAndLoad() {
         lifecycleScope.launch(Dispatchers.IO) {
             val file = File(filesDir, imageFileName)
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadImage(url: String) {
+    internal fun loadImage(url: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val bitmap = downloadImage(url)
@@ -85,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Загрузка изображения с URL с использованием Glide
-    private suspend fun downloadImage(url: String): Bitmap? {
+    internal suspend fun downloadImage(url: String): Bitmap? {
         return try {
             Glide.with(this)
                 .asBitmap()
@@ -98,8 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Сохранение изображения во внутренней памяти устройства
-    private fun saveImageToInternalStorage(bitmap: Bitmap) {
+    internal fun saveImageToInternalStorage(bitmap: Bitmap) {
         try {
             val file = File(filesDir, imageFileName)
             val outputStream = FileOutputStream(file)
@@ -111,8 +113,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Загрузка изображения из внутренней памяти
-    private fun loadImageFromInternalStorage(): Bitmap {
+    internal fun loadImageFromInternalStorage(): Bitmap {
         val file = File(filesDir, imageFileName)
         return BitmapFactory.decodeFile(file.absolutePath)
     }

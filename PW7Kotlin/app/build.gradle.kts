@@ -37,26 +37,24 @@ android {
 }
 
 dependencies {
-    testImplementation ("org.jetbrains.kotlin:kotlin-test:1.7.10")
-    testImplementation ("io.mockk:mockk:1.12.0")
-    testImplementation ("org.robolectric:robolectric:4.9")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    testImplementation (libs.robolectric)
+    testImplementation (libs.junit)
 
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.24")
+    implementation (libs.kotlin.stdlib)
 
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-    kapt ("com.github.bumptech.glide:compiler:4.16.0")
+    implementation (libs.glide)
+    kapt (libs.compiler)
 
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
 
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
 
-    implementation ("androidx.core:core-ktx:1.10.1")
-    implementation ("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.google.android.material:material:1.9.0")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation (libs.androidx.core.ktx)
+    implementation (libs.androidx.appcompat)
+    implementation (libs.material)
+    implementation (libs.androidx.constraintlayout)
 }
 kapt {
     correctErrorTypes = true

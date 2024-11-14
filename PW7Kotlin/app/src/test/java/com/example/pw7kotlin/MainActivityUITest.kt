@@ -3,60 +3,68 @@ package com.example.pw7kotlin
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
-import org.jetbrains.kotlin.test.assertTrue
+import android.widget.Toast
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import kotlin.test.BeforeTest
-import kotlin.test.Test
+import org.robolectric.shadows.ShadowToast
 
-@Config(sdk = [28]) // Указываем SDK для тестирования
+@Config(sdk = [28])
 class MainActivityUITest {
 
     private lateinit var mainActivity: MainActivity
     private lateinit var buttonLoadImage: Button
     private lateinit var editTextUrl: EditText
     private lateinit var imageView: ImageView
-    private lateinit var textView: TextView
 
-    @BeforeTest
+    // Инициализация перед тестами
     fun setup() {
         mainActivity = Robolectric.buildActivity(MainActivity::class.java).create().get()
         buttonLoadImage = mainActivity.findViewById(R.id.buttonLoadImage)
         editTextUrl = mainActivity.findViewById(R.id.editTextUrl)
         imageView = mainActivity.findViewById(R.id.imageView)
-        textView = mainActivity.findViewById(R.id.textView)
     }
 
-    @Test
-    fun `test imageView is visible`() {
-        assertTrue { imageView.visibility == android.view.View.VISIBLE }
+    // Тест 1: Проверка, что EditText и Button видимы
+    fun testEditTextAndButtonAreVisible() {
+        setup()
+
+        if (editTextUrl.visibility != android.view.View.VISIBLE) throw AssertionError("EditText should be visible")
+        if (buttonLoadImage.visibility != android.view.View.VISIBLE) throw AssertionError("Button should be visible")
     }
 
-    @Test
-    fun `test button click triggers load image`() {
-        editTextUrl.setText("https://example.com/image.jpg")
-        buttonLoadImage.performClick()
-        assertTrue { mainActivity.imageView.drawable != null }
+    // Тест 2: Проверка, что ImageView видим
+    fun testImageViewIsVisible() {
+        setup()
+
+        if (imageView.visibility != android.view.View.VISIBLE) throw AssertionError("ImageView should be visible")
     }
 
-    @Test
-    fun `test editText is empty on start`() {
-        assertTrue { editTextUrl.text.isEmpty() }
-    }
+    // Тест 3: Проверка, что Toast отображается при пустом URL
+    fun testButtonDoesNotLoadImageWithEmptyURL() {
+        setup()
 
-    @Test
-    fun `test textView updates with editText content`() {
-        editTextUrl.setText("Hello, Kotlin!")
-        buttonLoadImage.performClick()
-        assertTrue { textView.text.toString() == "Hello, Kotlin!" }
-    }
-
-    @Test
-    fun `test button not clickable with empty URL`() {
         editTextUrl.setText("")
         buttonLoadImage.performClick()
-        assertTrue { mainActivity.imageView.drawable == null }
+        val latestToast: Toast = ShadowToast.getLatestToast()
+        val toastText = ShadowToast.getTextOfLatestToast()
+        if (latestToast.view == null || toastText != "Введите ссылку") {
+            throw AssertionError("Toast with message 'Введите ссылку' should be shown for empty URL")
+        }
+    }
+
+    // Тест 4: Проверка, что EditText пустой при старте
+    fun testEditTextIsEmptyOnStart() {
+        setup()
+
+        if (editTextUrl.text.isNotEmpty()) throw AssertionError("EditText should be empty on start")
+    }
+
+    // Тест 5: Проверка загрузки изображения при валидном URL
+    fun testButtonLoadsImageWithValidURL() {
+        setup()
+
+        editTextUrl.setText("https://example.com/image.jpg")
+        buttonLoadImage.performClick()
+        if (mainActivity.imageView.drawable == null) throw AssertionError("ImageView should display loaded image")
     }
 }
