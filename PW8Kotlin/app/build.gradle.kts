@@ -37,14 +37,22 @@ android {
 }
 
 dependencies {
-    implementation(libs.core)
-    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-    testImplementation ("androidx.test:core:1.6.1")
-    testImplementation (libs.kotlin.test)
-    androidTestImplementation (libs.androidx.core)
-    testImplementation ("org.robolectric:robolectric:4.10.3")
-    androidTestImplementation ("androidx.test:runner:1.6.2")
+    testImplementation("org.robolectric:robolectric:4.11.1")
+
+    implementation ("com.jakewharton.timber:timber:5.0.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.mockito:mockito-inline:4.11.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation (libs.kotlin.stdlib)
 

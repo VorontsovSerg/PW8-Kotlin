@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Проверка, есть ли сохраненное изображение
     private fun checkIfImageExistsAndLoad() {
         lifecycleScope.launch(Dispatchers.IO) {
             val file = File(filesDir, imageFileName)
