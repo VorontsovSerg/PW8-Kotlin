@@ -14,7 +14,7 @@ import org.robolectric.shadows.ShadowLog
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
-class MainActivityTest {
+class MainActivityUnitTest {
 
     private lateinit var activity: MainActivity
 
